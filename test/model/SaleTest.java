@@ -36,7 +36,7 @@ public class SaleTest {
         newSale.addProduct(numberOfSetsOfProduct, product);
         String getDescriptionOfAddedProduct = newSale.getOrderInfo().getProducts().get(0).getDTOForProduct()
                 .getDescription();
-        assertEquals(description, getDescriptionOfAddedProduct, "Expected result did not equal result");
+        assertEquals(description, getDescriptionOfAddedProduct, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -53,7 +53,7 @@ public class SaleTest {
         int numberOfSetsOfProduct = 2;
         newSale.addProduct(numberOfSetsOfProduct, product);
         double getVATOfAddedProduct = newSale.getOrderInfo().getProducts().get(0).getDTOForProduct().getVAT();
-        assertEquals(VAT, getVATOfAddedProduct, "Expected result did not equal result");
+        assertEquals(VAT, getVATOfAddedProduct, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SaleTest {
         int numberOfSetsOfProduct = 2;
         newSale.addProduct(numberOfSetsOfProduct, product);
         double getCostOfAddedProduct = newSale.getOrderInfo().getProducts().get(0).getDTOForProduct().getCost();
-        assertEquals(cost, getCostOfAddedProduct, "Expected result did not equal result");
+        assertEquals(cost, getCostOfAddedProduct, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -96,7 +96,7 @@ public class SaleTest {
         newSale.addProduct(numberOfSetsOfProduct, secondProduct);
         int numberOfTheSameProduct = 2;
         int getNumberOfTheSameProduct = newSale.getNumberOfProducts().get(0);
-        assertEquals(numberOfTheSameProduct, getNumberOfTheSameProduct, "Expected result did not equal result");
+        assertEquals(numberOfTheSameProduct, getNumberOfTheSameProduct, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -123,6 +123,6 @@ public class SaleTest {
         newSale.addProduct(numberOfSetsOfProduct, secondProduct);
         int numberOfTheSameProduct = 1;
         int getNumberOfTheSameProduct = newSale.getNumberOfProducts().get(0);
-        assertEquals(numberOfTheSameProduct, getNumberOfTheSameProduct, "Expected result did not equal result");
+        assertEquals(numberOfTheSameProduct, getNumberOfTheSameProduct, "The result obtained was not the same as the expected result!");
     }
 }
