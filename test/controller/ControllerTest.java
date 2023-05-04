@@ -70,7 +70,7 @@ public class ControllerTest {
         DTOForSale DTOForSale = contr.inputProduct(soldProducts, productID);
         contr.endSale();
         int getRemainingProducts = DTOForSale.getProducts().get(0).getNumber();
-        assertEquals(remainingProducts, getRemainingProducts, "Expected result did not equal result");
+        assertEquals(remainingProducts, getRemainingProducts, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ControllerTest {
         String paymentOption = "Cash";
         int customerID = 1234;
         double change = contr.pay(amountBeingPaid, paymentOption, customerID);
-        assertEquals(expectedChange, change, "Expected result did not equal result");
+        assertEquals(expectedChange, change, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ControllerTest {
         String paymentOption = "Cash";
         int customerID = 1234;
         double change = contr.pay(amountBeingPaid, paymentOption, customerID);
-        assertEquals(expectedChange, change, "Expected result did not equal result");
+        assertEquals(expectedChange, change, "The result obtained was not the same as the expected result!");
     }
 
     @Test
@@ -121,6 +121,6 @@ public class ControllerTest {
         String paymentOption = "Cash";
         int customerID = 1234;
         double change = contr.pay(amountBeingPaid, paymentOption, customerID);
-        assertEquals(expectedChange, change, "Expected result did not equal result");
+        assertEquals(expectedChange, change, "The result obtained was not the same as the expected result!");
     }
 }
