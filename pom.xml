@@ -1,0 +1,5 @@
+<dependency>
+    <groupld>org.junit.jupiter</groupld>
+    <artifactld>junit-jupiter</artifactld>
+    <version>5.8.2</version>
+</dependency>
