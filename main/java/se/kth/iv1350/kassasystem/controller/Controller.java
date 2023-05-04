@@ -76,13 +76,15 @@ public class Controller {
         managerForExternalInventorySystem.update(newSale);
         return newSale.getOrderInfo();
     }
+    
+     /**
+     * Initializes discounts by running the constructor DTO for discounts..
+     * @param customerID     the id for the customer
+     * @return new DTOForDiscount(customerID) gives DTO for discounts.
+     */
 
     public DTOForDiscount initializeDiscounts(int customerID) {
         return new DTOForDiscount(customerID);
-    }
-
-    public ManagerForDiscounts getManagerForDiscounts() {
-        return managerForDiscounts;
     }
 
     /**
@@ -121,7 +123,7 @@ public class Controller {
      * @return the discount for the sale.
      */
     public double calculateDiscount(int customerID) {
-        return managerForDiscounts.findDiscount(endSale(), new DTOForDiscount(customerID));
+        return managerForDiscounts.findDiscount(endSale(), initializeDiscounts(customerID));
     }
 
     /**
