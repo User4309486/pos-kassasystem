@@ -12,11 +12,6 @@ public class ProductTest {
     private Product product;
     private ManagerForExternalInventorySystem managerForExternalInventorySystem = new ManagerForExternalInventorySystem();
 
-    @Before
-    public void setUp() {
-
-    }
-
     @Test
     public void testUpdateQuantity() {
         System.out.println("Removing products by calling modifyNumberOfItems with a specified number");
