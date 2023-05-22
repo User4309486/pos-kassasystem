@@ -9,11 +9,22 @@ import main.java.se.kth.iv1350.kassasystem.model.*;
  */
 
 public class ManagerForExternalInventorySystem {
-
+    private Logger logger;
     private List<DTOForProduct> DTOsForBusiness = new ArrayList<>();
     private List<Product> businessProducts = new ArrayList<>();
 
     public ManagerForExternalInventorySystem() {
+    }
+
+    /*
+     * Initiates the logger for logging purposes.
+     * 
+     * @param logger The logger object to be set.
+     * 
+     */
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
     }
 
     /**
@@ -29,17 +40,25 @@ public class ManagerForExternalInventorySystem {
      * Finds a requested product from the inventory with the help of a productID.
      * 
      * @param productID the id of the product.
-     * @return Returns the product, if it exists in the inventory. In other case,
-     *         null will be returned.
+     * @return Returns the found Product object
+     *         the database is down, so DatabaseAccessException is thrown
+     * @throws InvalidProductIDException if the provided productID doesn't match
+     *                                   any existing product.
+     * @throws DatabaseAccessException   if the database cannot be accessed.
+     *                                   For the moment, this is
+     *                                   simulated by a productID of -1.
      */
 
-    public Product find(int productID) {
-        for (Product item : businessProducts) {
-            if (productID == item.getProductID()) {
-                return item;
+    public Product find(int productID) throws InvalidProductIDException, DatabaseAccessException {
+        if (productID == -1) {
+            throw new DatabaseAccessException("Database can not be accessed.");
+        }
+        for (Product product : businessProducts) {
+            if (productID == product.getProductID()) {
+                return product;
             }
         }
-        return null;
+        throw new InvalidProductIDException("Invalid product ID: " + productID);
     }
 
     /**

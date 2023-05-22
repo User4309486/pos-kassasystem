@@ -18,7 +18,7 @@ public class ManagerForExternalAccountingSystem {
      * 
      * @return returns businessMoney
      */
-    public int getStoreBalance() {
+    public int getBusinessBalance() {
         return businessMoney;
     }
 

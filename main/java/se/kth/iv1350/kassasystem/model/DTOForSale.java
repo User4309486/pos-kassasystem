@@ -8,7 +8,7 @@ import java.util.*;
  */
 
 public class DTOForSale {
-    private java.lang.String businessName = "Testbutik";
+    private String businessName = "Testbutik";
     private List<Product> products;
     private double totalVAT;
     private double totalCost;

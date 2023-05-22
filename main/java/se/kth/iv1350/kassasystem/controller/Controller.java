@@ -2,18 +2,21 @@ package main.java.se.kth.iv1350.kassasystem.controller;
 
 import main.java.se.kth.iv1350.kassasystem.integration.*;
 import main.java.se.kth.iv1350.kassasystem.model.*;
+import java.util.*;
 
 /*
  * This is the application's only controller. All calls to the model pass through this class.
  */
 
 public class Controller {
-
     private Sale newSale;
     private Printer printer;
     private ManagerForExternalInventorySystem managerForExternalInventorySystem;
     private ManagerForExternalAccountingSystem managerForExternalAccountingSystem;
     private ManagerForDiscounts managerForDiscounts;
+    private List<ObserverForSales> observersForSales = new ArrayList<>();
+    private Logger logger;
+
     /*
      * The constructor below creates an instance of this Controller.
      * 
@@ -37,6 +40,16 @@ public class Controller {
         this.managerForExternalAccountingSystem = managerForExternalAccountingSystem;
         managerForExternalInventorySystem.addProducts();
     }
+    /*
+     * Initiates the logger for logging purposes.
+     * 
+     * @param logger The logger object to be set.
+     * 
+     */
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
 
     /*
      * Begins the sale by creating a new sale object.
@@ -46,6 +59,9 @@ public class Controller {
 
     public DTOForSale beginSale() {
         newSale = new Sale();
+        for (ObserverForSales observer : observersForSales) {
+            newSale.addObserverForSales(observer);
+        }
         return newSale.getOrderInfo();
     }
 
@@ -55,15 +71,27 @@ public class Controller {
      * @param number    The number of the requested product.
      * @param productID The identification of the product.
      * @return DTOForSale, should be visible on the display in view.
+     * @throws DatabaseAccessException   is thrown when the database can't be
+     *                                   reached.
+     * @throws InvalidProductIDException is thrown if the productID passed does not
+     *                                   correspond to a valid product in the
+     *                                   external inventory system.
      */
-
-    public DTOForSale inputProduct(int number, int productID) {
-        Product product = managerForExternalInventorySystem.find(productID);
-        if (product == null || product.getNumber() < number) {
-            return null;
+    public DTOForSale inputProduct(int number, int productID)
+            throws DatabaseAccessException, InvalidProductIDException {
+        try {
+            Product product = managerForExternalInventorySystem.find(productID);
+            if (number <= product.getNumber()) {
+                newSale.addProduct(number, product);
+            }
+            return newSale.getOrderInfo();
+        } catch (DatabaseAccessException exception) {
+            logger.log("Error! Database access failed.");
+            throw exception;
+        } catch (InvalidProductIDException exception) {
+            logger.log("Error! Invalid product ID. Please input a valid product ID, instead of: " + productID);
+            throw exception;
         }
-        newSale.addProduct(number, product);
-        return newSale.getOrderInfo();
     }
 
     /**
@@ -76,10 +104,11 @@ public class Controller {
         managerForExternalInventorySystem.update(newSale);
         return newSale.getOrderInfo();
     }
-    
-     /**
+
+    /**
      * Initializes discounts by running the constructor DTO for discounts..
-     * @param customerID     the id for the customer
+     * 
+     * @param customerID the id for the customer
      * @return new DTOForDiscount(customerID) gives DTO for discounts.
      */
 
@@ -133,4 +162,12 @@ public class Controller {
         printer.print(newSale.getReceipt());
     }
 
+    /**
+     * Adds an observer to be alerted when a new sale is made.
+     *
+     * @param observer The variable of the observer to be alerted.
+     */
+    public void registerObserverForSales(ObserverForSales observer) {
+        observersForSales.add(observer);
+    }
 }

@@ -12,7 +12,7 @@ public class Printer {
     }
 
     /**
-     * Print a receipt, which essentially writes out a command.
+     * Print a receipt, which, as a placeholder for now writes out a command.
      * 
      * @param receipt The relevant instance of recepit.
      */

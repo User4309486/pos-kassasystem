@@ -15,9 +15,10 @@ public class Sale {
 	private Receipt receipt;
 	private List<Integer> numberOfProducts = new ArrayList<>();
 	private DTOForSale orderInfo = new DTOForSale(products, totalVAT, totalCost, time);
+	private List<ObserverForSales> observerForSales = new ArrayList<>();
 
 	/**
-	 * Creates a new instance of sale and saves the time.
+	 * Creates a object of sale
 	 */
 	public Sale() {
 	}
@@ -47,9 +48,8 @@ public class Sale {
 	 * @return the receipt for this sale
 	 */
 	public Receipt getReceipt() {
-		if (receipt == null) {
-			this.receipt = new Receipt(orderInfo);
-		}
+		informObserverForSales();
+		this.receipt = new Receipt(orderInfo);
 		return receipt;
 	}
 
@@ -83,11 +83,11 @@ public class Sale {
 		for (Product presentProduct : products) {
 			if (presentProduct.getProductID() == product.getProductID()) {
 				found = true;
-				numberOfProducts.set(products.indexOf(presentProduct),
-						(numberOfProducts.get(products.indexOf(presentProduct)) + number));
+				int index = products.indexOf(presentProduct);
+				numberOfProducts.set(index, numberOfProducts.get(index) + number);
 			}
 		}
-		if (found == false) {
+		if (!found) {
 			updateProducts(product);
 			numberOfProducts.add(number);
 		}
@@ -138,4 +138,22 @@ public class Sale {
 		this.orderInfo = new DTOForSale(products, totalVAT, totalCost, time);
 	}
 
+	/**
+	 * Adds an observer for sales to be informed when a new sale occurs.
+	 *
+	 * @param observer The variable to be nofified.
+	 */
+	public void addObserverForSales(ObserverForSales observer) {
+		observerForSales.add(observer);
+	}
+
+	/**
+	 * Informs all registered sales observers about a new sale and provides the
+	 * total cost. The newSale of every observer is called.
+	 */
+	private void informObserverForSales() {
+		for (ObserverForSales observer : observerForSales) {
+			observer.newSale(totalCost);
+		}
+	}
 }

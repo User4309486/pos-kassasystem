@@ -2,7 +2,6 @@ package test.model;
 
 import main.java.se.kth.iv1350.kassasystem.model.Product;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
